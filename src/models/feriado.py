@@ -1,0 +1,25 @@
+from sqlalchemy import Column, SmallInteger, String, Integer,Boolean,DateTime
+from sqlalchemy.orm import Mapped, validates
+from datetime import datetime
+from src.db.base_class import Base
+from iso3166 import countries
+
+class Feriado(Base):
+    __tablename__ = "feriado"
+    
+    holiday_id: Mapped[int] = Column(Integer, primary_key=True, index=True)
+    name: Mapped[str] = Column(String)
+    public_name: Mapped[str] = Column(String)
+    year: Mapped[int] = Column(SmallInteger)
+    country: Mapped[str] = Column(String)
+    is_renounceable: Mapped[bool] = Column(Boolean)
+    is_local: Mapped[bool] = Column(Boolean)
+    start: Mapped[datetime] = Column(DateTime)
+    end: Mapped[datetime] = Column(DateTime)
+    enable: Mapped[bool] = Column(Boolean, default=True)
+
+    @validates("country")
+    def validate_country(self, key, value):
+        if value:
+            contry = countries.get(value).name
+        return value
