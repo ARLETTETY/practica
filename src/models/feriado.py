@@ -1,7 +1,7 @@
 from sqlalchemy import Column, SmallInteger, String, Integer,Boolean,DateTime
 from sqlalchemy.orm import Mapped, validates
 from datetime import datetime
-from src.db.base_class import Base
+from src.db.declarative_base import Base
 from iso3166 import countries
 
 class Feriado(Base):

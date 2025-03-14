@@ -4,7 +4,7 @@ from sqlalchemy import pool
 from alembic import context
 import os 
 from dotenv import load_dotenv
-from src.db.base_class import Base
+from src.db.declarative_base import Base
 # se deben cargar modelos
 from src.models.feriado import Feriado
 
