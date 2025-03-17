@@ -4,6 +4,7 @@ from src.db.session import get_db
 from src.schemas.feriado import FeriadoResponse, FeriadoCreate, FeriadoUpdate
 from src.crud.feriado import get_feriados, get_feriado_by_id, create_feriado, update_feriado, delete_feriado
 
+
 router = APIRouter(prefix="/feriados", tags=["Feriados"])
 
 @router.get("/", response_model=list[FeriadoResponse])

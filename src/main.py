@@ -6,7 +6,11 @@ from src.db.session import engine
 from src.models.feriado import Feriado
 from src.api.routes.feriado import router as feriado_router
 
+
 app = FastAPI(title=settings.PROJECT_NAME, version=settings.PROJECT_VERSION)
+
+#registra el conjunto de rutas de put, delete, get, post
+app.include_router(feriado_router)
 
 #con esto se crea la tabla que se declararon con la base 
 Base.metadata.create_all(bind=engine)
@@ -14,6 +18,4 @@ Base.metadata.create_all(bind=engine)
 @app.get("/")
 def root():
     return {'message:hola hola'}
-
-
 
