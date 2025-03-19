@@ -1,15 +1,15 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from src.db.session import get_db
-from src.schemas.feriado import FeriadoResponse, FeriadoCreate, FeriadoUpdate
+from src.schemas.feriado import FeriadoResponse, FeriadoCreate, FeriadoUpdate, FeriadoResponse_
 from src.crud.feriado import get_feriados, get_feriado_by_id, create_feriado, update_feriado, delete_feriado
-
 
 router = APIRouter(prefix="/feriados", tags=["Feriados"])
 
-@router.get("/", response_model=list[FeriadoResponse])
+@router.get("/", response_model=list[FeriadoResponse_])
 def read_feriados(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
-    return get_feriados(db, skip, limit)
+    get_feriado = get_feriados(db, skip, limit)
+    return get_feriado
 
 @router.get("/{holiday_id}", response_model=FeriadoResponse)
 def read_feriado(holiday_id: int, db: Session = Depends(get_db)):

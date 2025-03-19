@@ -3,7 +3,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.orm.session import engine
 from src.core.config import settings
 
-
+#esto es la configuración de SQLAlchemy con la URL de la base de datos desde .env
 
 engine = create_engine(settings.DATABASE_URL, echo=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine) 

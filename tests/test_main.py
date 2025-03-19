@@ -5,18 +5,21 @@ import os
 # Añade el directorio src al path. 
 #agrega el directorio src al sys.path dinámicamente, permitiendo 
 # que el archivo test_main.py encuentre el módulo main dentro de src
-
-
+from fastapi.testclient import TestClient
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from src.main import app  #importación de fastapi
+from src.core.config import settings
+
+
+client = TestClient(app)
 
 @pytest.mark.asyncio
 async def test_create_holiday():
-    # Suponiendo que tu API tiene un endpoint POST '/holidays'
     payload = {
         "name": "Día de la Independencia",
         "date": "2025-09-18"
     }
-    async with AsyncClient(app=app, base_url="http://test") as client:
+    async with AsyncClient(base_url=settings.BASE_URL) as client:
         response = await client.post("/holidays/", json=payload)
     assert response.status_code == 201
     assert response.json()["name"] == payload["name"]
@@ -24,12 +27,11 @@ async def test_create_holiday():
 
 @pytest.mark.asyncio
 async def test_get_holiday():
-    # Primero, crea un feriado
     payload = {
         "name": "Día del Trabajo",
         "date": "2025-05-01"
     }
-    async with AsyncClient(app=app, base_url="http://test") as client:
+    async with AsyncClient(base_url=settings.BASE_URL) as client:
         # Crear un feriado
         create_response = await client.post("/holidays/", json=payload)
         holiday_id = create_response.json()["id"]
@@ -48,7 +50,7 @@ async def test_update_holiday():
         "name": "Día de la Madre",
         "date": "2025-05-10"
     }
-    async with AsyncClient(app=app, base_url="http://test") as client:
+    async with AsyncClient(base_url=settings.BASE_URL) as client:
         create_response = await client.post("/holidays/", json=payload)
         holiday_id = create_response.json()["id"]
 
@@ -69,11 +71,11 @@ async def test_delete_holiday():
         "name": "Navidad",
         "date": "2025-12-25"
     }
-    async with AsyncClient(app=app, base_url="http://test") as client:
+    async with AsyncClient(base_url=settings.BASE_URL) as client:
         create_response = await client.post("/holidays/", json=payload)
         holiday_id = create_response.json()["id"]
 
         # Eliminar el feriado
         response = await client.delete(f"/holidays/{holiday_id}")
     
-    assert response.status_code == 204  # No content
+    assert response.status_code == 204  

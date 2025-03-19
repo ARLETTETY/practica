@@ -5,11 +5,14 @@ from src.db.declarative_base import Base
 from src.db.session import engine
 from src.models.feriado import Feriado
 from src.api.routes.feriado import router as feriado_router
+from dotenv import load_dotenv
+import os
 
+load_dotenv() 
 
 app = FastAPI(title=settings.PROJECT_NAME, version=settings.PROJECT_VERSION)
 
-#registra el conjunto de rutas de put, delete, get, post
+#registra el conjunto de rutas de los http  put, delete, get, post
 app.include_router(feriado_router)
 
 #con esto se crea la tabla que se declararon con la base 

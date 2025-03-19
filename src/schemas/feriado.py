@@ -1,7 +1,6 @@
 # valida los datos de entrada y salida de la api 
 # con pydantic que se usa en FastApi para validar 
 # y estructurar datos en las solicitudes y repsuestas
-
 from datetime import datetime
 import logging
 from typing import Optional
@@ -60,6 +59,10 @@ class FeriadoUpdate(BaseModel):
 
 
 class FeriadoResponse(FeriadoBase):
+    """Modelo para la respuesta de feriados con ID."""
+    holiday_id: int
+
+class FeriadoResponse_(BaseModel):
     """Modelo para la respuesta de feriados con ID."""
     holiday_id: int
 
